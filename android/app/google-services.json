@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "774887069540",
+    "project_id": "plumora-f69ca",
+    "storage_bucket": "plumora-f69ca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:774887069540:android:05acc3679c97a36888cc71",
+        "android_client_info": {
+          "package_name": "com.example.plumora"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlKDlYhYzsqBtr7NztGDqd9vgg1N2d79w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

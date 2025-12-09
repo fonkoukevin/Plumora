@@ -1,0 +1,11 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:plumora/app/app.locator.dart';
+
+import '../helpers/test_helpers.dart';
+
+void main() {
+  group('NewmanuscriptViewModel Tests -', () {
+    setUp(() => registerServices());
+    tearDown(() => locator.reset());
+  });
+}
