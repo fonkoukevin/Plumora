@@ -57,10 +57,8 @@ class ManuscriptService {
   }
 
   Future<Manuscript?> getManuscriptById(String id) async {
-  final doc = await _manuscriptsRef.doc(id).get();
-  if (!doc.exists) return null;
-  return Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>);
-}
-
-
+    final doc = await _manuscriptsRef.doc(id).get();
+    if (!doc.exists) return null;
+    return Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>);
+  }
 }

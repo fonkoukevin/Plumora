@@ -1,3 +1,4 @@
+import 'package:plumora/ui/views/manuscript/manuscript_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -29,10 +30,9 @@ class HomeViewModel extends StreamViewModel<List<Manuscript>> {
 
   bool get hasManuscripts => manuscripts.isNotEmpty;
 
-Future<void> createNewManuscript() async {
-  _navigationService.navigateToNewManuscriptView();
-}
-
+  Future<void> createNewManuscript() async {
+    _navigationService.navigateToNewmanuscriptView();
+  }
 
   Future<String?> _askForTitle() async {
     // MVP : on met un titre par défaut pour ne pas bloquer
@@ -40,8 +40,9 @@ Future<void> createNewManuscript() async {
   }
 
   void openManuscript(Manuscript manuscript) {
-    // TODO: naviguer vers la page d'édition de manuscrit
-    // _navigationService.navigateToManuscriptView(manuscriptId: manuscript.id);
+    _navigationService.navigateToView(
+      ManuscriptView(manuscriptId: manuscript.id),
+    );
   }
 
   void logout() {

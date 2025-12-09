@@ -864,20 +864,52 @@ class MockManuscriptService extends _i1.Mock implements _i10.ManuscriptService {
       ) as _i5.Stream<List<_i11.Manuscript>>);
 
   @override
-  _i5.Future<void> createManuscript({
+  _i5.Future<String> createManuscriptWithId({
     required String? title,
     String? summary,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
-          #createManuscript,
+          #createManuscriptWithId,
           [],
           {
             #title: title,
             #summary: summary,
           },
         ),
-        returnValue: _i5.Future<void>.value(),
-        returnValueForMissingStub: _i5.Future<void>.value(),
-      ) as _i5.Future<void>);
+        returnValue: _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #createManuscriptWithId,
+            [],
+            {
+              #title: title,
+              #summary: summary,
+            },
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<String>.value(_i3.dummyValue<String>(
+          this,
+          Invocation.method(
+            #createManuscriptWithId,
+            [],
+            {
+              #title: title,
+              #summary: summary,
+            },
+          ),
+        )),
+      ) as _i5.Future<String>);
+
+  @override
+  _i5.Future<_i11.Manuscript?> getManuscriptById(String? id) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getManuscriptById,
+          [id],
+        ),
+        returnValue: _i5.Future<_i11.Manuscript?>.value(),
+        returnValueForMissingStub: _i5.Future<_i11.Manuscript?>.value(),
+      ) as _i5.Future<_i11.Manuscript?>);
 }
