@@ -32,7 +32,6 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => SnackbarService());
   locator.registerLazySingleton(() => NavigationService());
   locator.registerLazySingleton(() => AuthService());
-  locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => UserService());
   locator.registerLazySingleton(() => ManuscriptService());
 }

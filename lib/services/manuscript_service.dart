@@ -12,11 +12,11 @@ class ManuscriptService {
 
   String? get _currentUserId => _auth.currentUser?.uid;
 
-  /// Stream de tous les manuscrits de l'utilisateur connecté
+  /// 🔥 Stream de tous les manuscrits de l'utilisateur connecté
   Stream<List<Manuscript>> watchMyManuscripts() {
     final uid = _currentUserId;
     if (uid == null) {
-      // renvoyer un stream vide si pas connecté
+      // Si jamais pas connecté → stream vide
       return const Stream.empty();
     }
 
@@ -25,6 +25,9 @@ class ManuscriptService {
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snap) {
+      // Debug utile
+      // print('Docs Firestore: ${snap.docs.length}');
+
       return snap.docs
           .map((doc) =>
               Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>))
@@ -32,6 +35,7 @@ class ManuscriptService {
     });
   }
 
+  /// Création d'un nouveau manuscrit, retourne l'id
   Future<String> createManuscriptWithId({
     required String title,
     String? summary,

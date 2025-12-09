@@ -29,7 +29,6 @@ import 'package:plumora/ui/views/manuscript/manuscript_view.dart';
     LazySingleton(classType: SnackbarService),
     LazySingleton(classType: NavigationService),
     LazySingleton(classType: AuthService),
-    LazySingleton(classType: DialogService),
     LazySingleton(classType: UserService),
     LazySingleton(classType: ManuscriptService),
 // @stacked-service

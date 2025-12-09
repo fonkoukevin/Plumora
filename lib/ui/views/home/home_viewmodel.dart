@@ -46,7 +46,7 @@ class HomeViewModel extends StreamViewModel<List<Manuscript>> {
   }
 
   void logout() {
-    // Tu peux utiliser AuthService + UserService ici si tu veux
+    // Ici tu peux aussi appeler AuthService/UserService si besoin
     _navigationService.replaceWithLoginView();
   }
 }
