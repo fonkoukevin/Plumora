@@ -51,7 +51,7 @@ class LoginViewModel extends BaseViewModel {
       await _userService.syncUserFromFirebase();
 
       // ✅ Puis on va sur le dashboard
-      _navigationService.replaceWithHomeView();
+      //  _navigationService.replaceWithHomeView();
     } catch (e) {
       errorMessage = 'Échec de la connexion.';
       _snackbarService.showSnackbar(message: errorMessage!);
