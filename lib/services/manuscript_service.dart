@@ -56,6 +56,7 @@ class ManuscriptService {
       'avgRating': 0.0,
       'createdAt': now.toUtc().toIso8601String(),
       'updatedAt': now.toUtc().toIso8601String(),
+      'content': '', // 👈 important
     });
 
     print('[ManuscriptService] Manuscrit créé avec id = ${doc.id}');
@@ -67,4 +68,21 @@ class ManuscriptService {
     if (!doc.exists) return null;
     return Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>);
   }
+
+
+  Future<void> updateManuscriptContent({
+    required String id,
+    required String content,
+  }) async {
+    final now = DateTime.now();
+
+    await _manuscriptsRef.doc(id).update({
+      'content': content,
+      'updatedAt': now.toUtc().toIso8601String(),
+    });
+
+    print('[ManuscriptService] Content mis à jour pour $id');
+  }
+
+
 }

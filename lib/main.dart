@@ -28,7 +28,10 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: Routes.startupView,
       onGenerateRoute: StackedRouter().onGenerateRoute,
-      theme: ThemeData(),
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       navigatorKey: StackedService.navigatorKey,
       navigatorObservers: [StackedService.routeObserver],
     );
