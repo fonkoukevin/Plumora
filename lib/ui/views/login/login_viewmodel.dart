@@ -1,18 +1,19 @@
 import 'package:stacked/stacked.dart';
-
 import 'package:stacked_services/stacked_services.dart';
+
 import '../../../app/app.locator.dart';
 import '../../../app/app.router.dart';
 import '../../../services/auth_service.dart';
+import '../../../services/user_service.dart';
 
 class LoginViewModel extends BaseViewModel {
   final _authService = locator<AuthService>();
+  final _userService = locator<UserService>();
   final _navigationService = locator<NavigationService>();
   final _snackbarService = locator<SnackbarService>();
 
   String _email = '';
   String _password = '';
-
   String? errorMessage;
 
   void onEmailChanged(String value) {
@@ -24,8 +25,8 @@ class LoginViewModel extends BaseViewModel {
   }
 
   Future<void> login() async {
-    if (_email.isEmpty || _password.isEmpty) {
-      errorMessage = 'Veuillez renseigner votre email et votre mot de passe.';
+    if (_email.trim().isEmpty || _password.trim().isEmpty) {
+      errorMessage = 'Email et mot de passe sont obligatoires.';
       notifyListeners();
       return;
     }
@@ -40,14 +41,20 @@ class LoginViewModel extends BaseViewModel {
         password: _password,
       );
 
-      if (user != null) {
-        // Utilisateur connecté -> aller à l'écran principal
-        _navigationService.replaceWithHomeView();
+      if (user == null) {
+        errorMessage = 'Connexion impossible.';
+        _snackbarService.showSnackbar(message: errorMessage!);
+        return;
       }
-    } on Exception {
-      errorMessage = 'Connexion échouée. Vérifiez vos identifiants.';
+
+      // 🔥 On synchronise le AppUser (profil) depuis Firestore
+      await _userService.syncUserFromFirebase();
+
+      // ✅ Puis on va sur le dashboard
+      _navigationService.replaceWithHomeView();
+    } catch (e) {
+      errorMessage = 'Échec de la connexion.';
       _snackbarService.showSnackbar(message: errorMessage!);
-      // Option : logger l'erreur pour debug si nécessaire
     } finally {
       setBusy(false);
       notifyListeners();

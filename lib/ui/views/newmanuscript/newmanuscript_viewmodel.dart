@@ -13,21 +13,18 @@ class NewmanuscriptViewModel extends BaseViewModel {
 
   String _title = '';
   String _summary = '';
-
   String? errorMessage;
-
   void onTitleChanged(String value) {
     _title = value;
   }
 
   void onSummaryChanged(String value) {
     _summary = value;
-  }
+  } // onTitleChanged, onSummaryChanged...
 
   Future<void> create() async {
     if (_title.trim().isEmpty) {
-      errorMessage = 'Le titre est obligatoire.';
-      notifyListeners();
+      // ...
       return;
     }
 
@@ -36,7 +33,7 @@ class NewmanuscriptViewModel extends BaseViewModel {
     notifyListeners();
 
     try {
-      final manuscriptId = await _manuscriptService.createManuscriptWithId(
+      await _manuscriptService.createManuscriptWithId(
         title: _title.trim(),
         summary: _summary.trim().isEmpty ? null : _summary.trim(),
       );
@@ -45,8 +42,6 @@ class NewmanuscriptViewModel extends BaseViewModel {
         message: 'Manuscrit créé avec succès.',
       );
 
-      // Pour l’instant, on revient au Dashboard
-      // Plus tard tu pourras faire: _navigationService.replaceWithManuscriptView(manuscriptId: manuscriptId);
       _navigationService.replaceWithHomeView();
     } catch (e) {
       errorMessage = 'Impossible de créer le manuscrit.';

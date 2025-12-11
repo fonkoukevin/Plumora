@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plumora/ui/views/newmanuscript/newmanuscript_viewmodel.dart';
 import 'package:stacked/stacked.dart';
+import 'newmanuscript_viewmodel.dart';
 
 class NewmanuscriptView extends StackedView<NewmanuscriptViewModel> {
   const NewmanuscriptView({super.key});
@@ -35,7 +35,7 @@ class NewmanuscriptView extends StackedView<NewmanuscriptViewModel> {
               ),
               const SizedBox(height: 8),
               Text(
-                'Commencez par donner un titre et un résumé rapide. Vous pourrez tout modifier plus tard.',
+                'Commence par donner un titre et un résumé rapide.',
                 style: theme.textTheme.bodyMedium
                     ?.copyWith(color: Colors.grey[600]),
               ),
@@ -62,7 +62,7 @@ class NewmanuscriptView extends StackedView<NewmanuscriptViewModel> {
                 onChanged: viewModel.onSummaryChanged,
                 maxLines: 4,
                 decoration: InputDecoration(
-                  hintText: 'Décrivez brièvement votre histoire...',
+                  hintText: 'Décris brièvement ton histoire...',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),

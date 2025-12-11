@@ -10,16 +10,13 @@ class ManuscriptViewModel extends BaseViewModel {
   final _manuscriptService = locator<ManuscriptService>();
   final _navigationService = locator<NavigationService>();
 
-  // final String manuscriptId;
-
   Manuscript? manuscript;
-
-  // ManuscriptViewModel(this.manuscriptId);
 
   Future<void> init(String manuscriptId) async {
     setBusy(true);
     manuscript = await _manuscriptService.getManuscriptById(manuscriptId);
     setBusy(false);
+
     notifyListeners();
   }
 

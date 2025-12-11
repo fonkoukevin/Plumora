@@ -12,22 +12,22 @@ class ManuscriptService {
 
   String? get _currentUserId => _auth.currentUser?.uid;
 
-  /// 🔥 Stream de tous les manuscrits de l'utilisateur connecté
+  /// Stream de tous les manuscrits de l'utilisateur connecté
   Stream<List<Manuscript>> watchMyManuscripts() {
     final uid = _currentUserId;
     if (uid == null) {
-      // Si jamais pas connecté → stream vide
+      print('[ManuscriptService] Aucun utilisateur connecté');
       return const Stream.empty();
     }
 
+    print('[ManuscriptService] watchMyManuscripts pour uid = $uid');
+
     return _manuscriptsRef
         .where('ownerId', isEqualTo: uid)
-        .orderBy('createdAt', descending: true)
+        //snapshots renvoie un Stream temps real
         .snapshots()
         .map((snap) {
-      // Debug utile
-      // print('Docs Firestore: ${snap.docs.length}');
-
+      print('[ManuscriptService] Nombre de manuscrits = ${snap.docs.length}');
       return snap.docs
           .map((doc) =>
               Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>))
@@ -42,6 +42,7 @@ class ManuscriptService {
   }) async {
     final uid = _currentUserId;
     if (uid == null) {
+      print('[ManuscriptService] createManuscriptWithId: user null');
       throw Exception('Utilisateur non connecté');
     }
 
@@ -57,6 +58,7 @@ class ManuscriptService {
       'updatedAt': now.toUtc().toIso8601String(),
     });
 
+    print('[ManuscriptService] Manuscrit créé avec id = ${doc.id}');
     return doc.id;
   }
 

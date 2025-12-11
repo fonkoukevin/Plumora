@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
-  // Expose the current user for simple checks (nullable if not signed in)
   User? get currentUser => _firebaseAuth.currentUser;
 
   Future<User?> signInWithEmail({
@@ -32,6 +31,7 @@ class AuthService {
     await _firebaseAuth.signOut();
   }
 
+  // null si logout et User si log
   Stream<User?> authStateChanges() => _firebaseAuth.authStateChanges();
 
   /// Send a password reset email to the provided address.

@@ -1,11 +1,10 @@
-import 'package:plumora/app/app.locator.dart';
-import 'package:plumora/app/app.router.dart';
-import 'package:plumora/services/auth_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+import '../../../app/app.locator.dart';
+import '../../../app/app.router.dart';
+import '../../../services/auth_service.dart';
 import '../../../services/user_service.dart';
-import '../../../models/app_user.dart';
 
 class RegisterViewModel extends BaseViewModel {
   final _authService = locator<AuthService>();
@@ -17,7 +16,6 @@ class RegisterViewModel extends BaseViewModel {
   String _password = '';
   String _confirmPassword = '';
   String _penName = '';
-
   String? errorMessage;
 
   void onEmailChanged(String value) => _email = value;
@@ -26,28 +24,16 @@ class RegisterViewModel extends BaseViewModel {
   void onPenNameChanged(String value) => _penName = value;
 
   Future<void> register() async {
-    // Validations de base
-    if (_email.isEmpty || _password.isEmpty || _confirmPassword.isEmpty) {
-      errorMessage = 'Veuillez remplir tous les champs obligatoires.';
+    if (_email.trim().isEmpty ||
+        _password.trim().isEmpty ||
+        _confirmPassword.trim().isEmpty) {
+      errorMessage = 'Tous les champs obligatoires doivent être remplis.';
       notifyListeners();
       return;
     }
 
-    if (_password.length < 6) {
-      errorMessage = 'Le mot de passe doit contenir au moins 6 caractères.';
-      notifyListeners();
-      return;
-    }
-
-    if (_password != _confirmPassword) {
+    if (_password.trim() != _confirmPassword.trim()) {
       errorMessage = 'Les mots de passe ne correspondent pas.';
-      notifyListeners();
-      return;
-    }
-
-    // Validation basique d'email (regex simple)
-    if (!RegExp(r'^[^@]+@[^@]+\.[^@]+$').hasMatch(_email)) {
-      errorMessage = 'Veuillez entrer une adresse email valide.';
       notifyListeners();
       return;
     }
@@ -62,23 +48,26 @@ class RegisterViewModel extends BaseViewModel {
         password: _password,
       );
 
-      if (user != null) {
-        // Création + chargement du profil AppUser
-        await _userService.syncUserFromFirebase(
-          penName: _penName.isEmpty ? null : _penName,
-        );
-
-        _snackbarService.showSnackbar(
-          message: 'Compte créé avec succès. Bienvenue sur Plumora.',
-        );
-
-        _navigationService.replaceWithHomeView();
+      if (user == null) {
+        errorMessage = 'Inscription impossible.';
+        _snackbarService.showSnackbar(message: errorMessage!);
+        return;
       }
+
+      // 🔥 On crée le profil AppUser dans Firestore
+      await _userService.syncUserFromFirebase(
+        penName: _penName.isEmpty ? null : _penName,
+      );
+
+      _snackbarService.showSnackbar(
+        message: 'Compte créé avec succès.',
+      );
+
+      // ✅ Puis on va directement au dashboard
+      _navigationService.replaceWithHomeView();
     } catch (e) {
-      errorMessage =
-          "L'inscription a échoué. Essayez avec un autre email ou vérifiez votre connexion.";
+      errorMessage = "Impossible de créer le compte.";
       _snackbarService.showSnackbar(message: errorMessage!);
-      // Débug en console si nécessaire : print(e);
     } finally {
       setBusy(false);
       notifyListeners();

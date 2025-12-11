@@ -2,18 +2,18 @@ class ManuscriptStatus {
   static const writing = 'writing'; // Écriture
   static const editing = 'editing'; // Édition
   static const reviewing = 'reviewing'; // Bêta-lecture
-  static const selected = 'selected'; // Sélectionné par la maison
+  static const selected = 'selected'; // Sélectionné
   static const published = 'published'; // Publié
 }
 
 class Manuscript {
   final String id;
-  final String ownerId; // uid de l'autrice
+  final String ownerId;
   final String title;
   final String? summary;
-  final String status; // voir ManuscriptStatus
+  final String status;
   final int chapterCount;
-  final double avgRating; // moyenne des notes bêta
+  final double avgRating;
   final DateTime createdAt;
   final DateTime updatedAt;
 

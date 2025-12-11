@@ -2,10 +2,9 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../../models/manuscript.dart';
+import 'manuscript_viewmodel.dart';
 
 import 'package:flutter/material.dart';
-
-import 'manuscript_viewmodel.dart';
 
 class ManuscriptView extends StackedView<ManuscriptViewModel> {
   final String? manuscriptId;

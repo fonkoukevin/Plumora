@@ -1,20 +1,21 @@
-import 'package:plumora/ui/views/manuscript/manuscript_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 import '../../../app/app.locator.dart';
+import '../../../app/app.router.dart';
 import '../../../services/user_service.dart';
 import '../../../services/manuscript_service.dart';
 import '../../../models/manuscript.dart';
-import '../../../app/app.router.dart';
-import 'package:stacked_services/stacked_services.dart';
+import '../newmanuscript/newmanuscript_view.dart';
+import '../manuscript/manuscript_view.dart';
 
 class HomeViewModel extends StreamViewModel<List<Manuscript>> {
   final _userService = locator<UserService>();
   final _manuscriptService = locator<ManuscriptService>();
   final _navigationService = locator<NavigationService>();
-  final _snackbarService = locator<SnackbarService>();
-  final _dialogService = locator<DialogService>();
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [_userService];
 
   String get displayName {
     final u = _userService.currentUser;
@@ -27,16 +28,10 @@ class HomeViewModel extends StreamViewModel<List<Manuscript>> {
       _manuscriptService.watchMyManuscripts();
 
   List<Manuscript> get manuscripts => data ?? const [];
-
   bool get hasManuscripts => manuscripts.isNotEmpty;
 
   Future<void> createNewManuscript() async {
-    _navigationService.navigateToNewmanuscriptView();
-  }
-
-  Future<String?> _askForTitle() async {
-    // MVP : on met un titre par défaut pour ne pas bloquer
-    return 'Nouveau manuscrit';
+    _navigationService.navigateToView(const NewmanuscriptView());
   }
 
   void openManuscript(Manuscript manuscript) {
@@ -46,7 +41,17 @@ class HomeViewModel extends StreamViewModel<List<Manuscript>> {
   }
 
   void logout() {
-    // Ici tu peux aussi appeler AuthService/UserService si besoin
+    _userService.signOut();
     _navigationService.replaceWithLoginView();
+  }
+
+  // 👉 utilisé par le bottom nav de HomeView
+  void goToProfile() {
+    _navigationService.navigateToProfileView();
+  }
+
+  // 👉 utilisé par le bottom nav de ProfileView
+  void goToHome() {
+    _navigationService.replaceWithHomeView();
   }
 }

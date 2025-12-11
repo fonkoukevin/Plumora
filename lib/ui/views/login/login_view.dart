@@ -106,13 +106,13 @@ class LoginView extends StackedView<LoginViewModel> {
                 ),
                 const SizedBox(height: 8),
 
-                // Align(
-                //   alignment: Alignment.centerRight,
-                //   child: TextButton(
-                //     onPressed: viewModel.forgotPassword,
-                //     child: const Text('Mot de passe oublié ?'),
-                //   ),
-                // ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: viewModel.forgotPassword,
+                    child: const Text('Mot de passe oublié ?'),
+                  ),
+                ),
 
                 if (viewModel.errorMessage != null) ...[
                   const SizedBox(height: 4),

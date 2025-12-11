@@ -32,12 +32,12 @@ class UserService with ListenableServiceMixin {
     final doc = await _usersRef.doc(fbUser.uid).get();
 
     if (!doc.exists) {
-      // On crée le document Firestore si c'est la première connexion
+      // Première connexion : on crée le profil dans Firestore
       final appUser = AppUser(
         id: fbUser.uid,
         email: fbUser.email ?? '',
         penName: penName,
-        role: 'author', // par défaut, tu pourras faire évoluer ça
+        role: 'author', // par défaut
         createdAt: DateTime.now(),
       );
 

@@ -11,6 +11,7 @@ import 'package:plumora/services/user_service.dart';
 import 'package:plumora/services/manuscript_service.dart';
 import 'package:plumora/ui/views/newmanuscript/newmanuscript_view.dart';
 import 'package:plumora/ui/views/manuscript/manuscript_view.dart';
+import 'package:plumora/ui/views/profile/profile_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -21,6 +22,7 @@ import 'package:plumora/ui/views/manuscript/manuscript_view.dart';
     MaterialRoute(page: RegisterView),
     MaterialRoute(page: NewmanuscriptView),
     MaterialRoute(page: ManuscriptView),
+    MaterialRoute(page: ProfileView),
 // @stacked-route
   ],
   dependencies: [
