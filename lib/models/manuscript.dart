@@ -11,7 +11,7 @@ class Manuscript {
   final DateTime createdAt;
   final DateTime updatedAt;
   final String content;
-  final bool isPublic; 
+  final bool isPublic;
 
   Manuscript({
     required this.id,
@@ -24,7 +24,7 @@ class Manuscript {
     required this.createdAt,
     required this.updatedAt,
     this.content = '',
-    this.isPublic = false, 
+    this.isPublic = false,
   });
 
   Map<String, dynamic> toMap() {
@@ -38,7 +38,7 @@ class Manuscript {
       'createdAt': createdAt.toUtc().toIso8601String(),
       'updatedAt': updatedAt.toUtc().toIso8601String(),
       'content': content,
-      'isPublic': isPublic, 
+      'isPublic': isPublic,
     };
   }
 

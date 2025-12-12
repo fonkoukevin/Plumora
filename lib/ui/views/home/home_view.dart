@@ -1,43 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:plumora/ui/widgets/common/plumora_bottom_navbar/plumora_bottom_navbar.dart';
+import 'package:plumora/ui/widgets/common/plumora_fab/plumora_fab.dart';
+import 'package:plumora/ui/widgets/common/plumora_home_manuscript_card/plumora_home_manuscript_card.dart';
+import 'package:plumora/ui/widgets/common/plumora_moon_button/plumora_moon_button.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
-import '../../../models/manuscript.dart';
+import '../../theme/plumora_ui.dart';
 
 class HomeView extends StackedView<HomeViewModel> {
   const HomeView({super.key});
 
   @override
-  Widget builder(
-    BuildContext context,
-    HomeViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(BuildContext context, HomeViewModel viewModel, Widget? child) {
     final theme = Theme.of(context);
     final userName = viewModel.displayName.isEmpty
-        ? 'Sophie'
-        : viewModel.displayName.split(' ').first; // juste le prénom
+        ? 'kevin@test.com'
+        : viewModel.displayName;
     final greeting = 'Bonjour, $userName ✨';
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF7F2EC),
-      floatingActionButton: FloatingActionButton(
-        onPressed: viewModel.createNewManuscript,
-        backgroundColor: const Color(0xFF8B5E3C),
-        child: const Icon(Icons.add, color: Colors.white),
-      ),
+      backgroundColor: PlumoraUi.bg,
+      floatingActionButton: PlumoraFab(onTap: viewModel.createNewManuscript),
       body: SafeArea(
         child: viewModel.isBusy
             ? const Center(child: CircularProgressIndicator())
             : SingleChildScrollView(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // HEADER "Plumora" + bonjour
+                    // Header exactement “avant”
                     Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           child: Column(
@@ -45,8 +40,9 @@ class HomeView extends StackedView<HomeViewModel> {
                             children: [
                               Text(
                                 'Plumora',
-                                style: theme.textTheme.titleLarge?.copyWith(
-                                  fontWeight: FontWeight.bold,
+                                style: theme.textTheme.headlineSmall?.copyWith(
+                                  fontWeight: FontWeight.w900,
+                                  color: PlumoraUi.textDark,
                                 ),
                               ),
                               const SizedBox(height: 4),
@@ -59,103 +55,87 @@ class HomeView extends StackedView<HomeViewModel> {
                             ],
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFD3A36B), Color(0xFF8B5E3C)],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const Icon(
-                            Icons.dark_mode_outlined,
-                            color: Colors.white,
-                            size: 20,
-                          ),
-                        ),
+                        const PlumoraMoonButton(),
                       ],
                     ),
 
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
 
-                    // STATS DU JOUR (mock)
+                    // Stats (si tu as déjà des widgets factorisés, garde-les)
                     Row(
                       children: [
                         Expanded(
-                          child: _StatCard(
-                            label: 'Mots aujourd\'hui',
-                            value: '856',
-                            icon: Icons.trending_up,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
+                            child: _Stat(
+                                label: "Mots aujourd'hui",
+                                value: "856",
+                                icon: Icons.trending_up)),
+                        const SizedBox(width: 10),
                         Expanded(
-                          child: _StatCard(
-                            label: 'Temps d\'écriture',
-                            value: '1h 24m',
-                            icon: Icons.access_time,
-                          ),
-                        ),
+                            child: _Stat(
+                                label: "Temps d'écriture",
+                                value: "1h 24m",
+                                icon: Icons.access_time)),
                       ],
                     ),
 
                     const SizedBox(height: 12),
 
-                    // BARRE DE RECHERCHE
-                    const _SearchBar(),
+                    // Search
+                    _Search(),
 
                     const SizedBox(height: 10),
 
-                    // CITATION
-                    const _QuoteCard(),
+                    // Quote
+                    _Quote(),
 
                     const SizedBox(height: 16),
 
-                    // SECTION MANUSCRITS
                     Row(
                       children: [
-                        Text(
-                          'Vos manuscrits',
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                        Text('Vos manuscrits',
+                            style: theme.textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.w900)),
                         const Spacer(),
                         TextButton(
-                          onPressed: () {
-                            // plus tard : page "Bibliothèque"
-                          },
+                          onPressed: () {},
                           child: Text(
                             'Voir tout →',
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: const Color(0xFF8B5E3C),
-                              fontWeight: FontWeight.w600,
+                              color: PlumoraUi.brown,
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ),
                       ],
                     ),
+
                     const SizedBox(height: 8),
 
                     if (!viewModel.hasManuscripts)
-                      _EmptyManuscriptsHome(
-                        onCreate: viewModel.createNewManuscript,
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.circular(PlumoraUi.radiusCard),
+                        ),
+                        child: Text(
+                          "Aucun manuscrit pour le moment.",
+                          style: theme.textTheme.bodyMedium
+                              ?.copyWith(color: Colors.grey[700]),
+                        ),
                       )
                     else
                       Column(
                         children: viewModel.manuscripts
-                            .map(
-                              (m) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: _ManuscriptHomeCard(
-                                  manuscript: m,
-                                  onTap: () => viewModel.openManuscript(m),
-                                ),
-                              ),
-                            )
+                            .map((m) => Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 6),
+                                  child: PlumoraHomeManuscriptCard(
+                                    manuscript: m,
+                                    onTap: () => viewModel.openManuscript(m),
+                                  ),
+                                ))
                             .toList(),
                       ),
 
@@ -164,14 +144,13 @@ class HomeView extends StackedView<HomeViewModel> {
                 ),
               ),
       ),
-      bottomNavigationBar: _BottomNavBar(
-        onHomeTap: () {
-          // On est déjà sur l’accueil → rien
-        },
-        onBetaTap: viewModel.goToBeta, // TODO plus tard
-        onReadingTap: viewModel.goToReading, // 👈 Lecture
-        onNotificationsTap: viewModel.goToNotifs,
-        onProfileTap: viewModel.goToProfile, // 👈 Profil
+      bottomNavigationBar: PlumoraBottomNavBar(
+        currentIndex: 0,
+        onHome: () {},
+        onBeta: viewModel.goToBeta,
+        onReading: viewModel.goToReading,
+        onNotif: viewModel.goToNotifs,
+        onProfile: viewModel.goToProfile,
       ),
     );
   }
@@ -180,54 +159,41 @@ class HomeView extends StackedView<HomeViewModel> {
   HomeViewModel viewModelBuilder(BuildContext context) => HomeViewModel();
 }
 
-class _StatCard extends StatelessWidget {
+/// Petits widgets locaux (tu peux aussi les sortir si tu veux)
+class _Stat extends StatelessWidget {
   final String label;
   final String value;
   final IconData icon;
-
-  const _StatCard({
-    required this.label,
-    required this.value,
-    required this.icon,
-  });
+  const _Stat({required this.label, required this.value, required this.icon});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(PlumoraUi.radiusCard),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, size: 18, color: const Color(0xFF8B5E3C)),
-          const SizedBox(height: 8),
-          Text(
-            value,
-            style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Icon(icon, size: 18, color: PlumoraUi.brown),
+          const SizedBox(height: 10),
+          Text(value,
+              style: theme.textTheme.headlineSmall
+                  ?.copyWith(fontWeight: FontWeight.w900)),
           const SizedBox(height: 2),
-          Text(
-            label,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: Colors.grey[700],
-            ),
-          ),
+          Text(label,
+              style:
+                  theme.textTheme.bodySmall?.copyWith(color: Colors.grey[700])),
         ],
       ),
     );
   }
 }
 
-class _SearchBar extends StatelessWidget {
-  const _SearchBar();
-
+class _Search extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -237,9 +203,9 @@ class _SearchBar extends StatelessWidget {
         filled: true,
         fillColor: Colors.white,
         contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(22),
           borderSide: BorderSide.none,
         ),
       ),
@@ -247,254 +213,33 @@ class _SearchBar extends StatelessWidget {
   }
 }
 
-class _QuoteCard extends StatelessWidget {
-  const _QuoteCard();
-
+class _Quote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(PlumoraUi.radiusCard),
       ),
-      child: Column(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              const Icon(Icons.format_quote, color: Color(0xFF8B5E3C)),
-              const SizedBox(width: 4),
-              Expanded(
-                child: Text(
-                  '« N\'attendez pas l\'inspiration. Elle vient en écrivant. »',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    fontStyle: FontStyle.italic,
-                    height: 1.3,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Align(
-            alignment: Alignment.centerRight,
+          const Icon(Icons.format_quote, color: PlumoraUi.brown),
+          const SizedBox(width: 8),
+          Expanded(
             child: Text(
-              '— Victor Hugo',
-              style:
-                  theme.textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _EmptyManuscriptsHome extends StatelessWidget {
-  final VoidCallback onCreate;
-
-  const _EmptyManuscriptsHome({required this.onCreate});
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Icon(Icons.menu_book_outlined, size: 40, color: Colors.grey[400]),
-          const SizedBox(height: 8),
-          Text(
-            'Aucun manuscrit pour le moment',
-            style: theme.textTheme.titleSmall
-                ?.copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Appuie sur le bouton + pour créer ton premier manuscrit.',
-            style: theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-            textAlign: TextAlign.center,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ManuscriptHomeCard extends StatelessWidget {
-  final Manuscript manuscript;
-  final VoidCallback onTap;
-
-  const _ManuscriptHomeCard({
-    required this.manuscript,
-    required this.onTap,
-  });
-
-  String _statusLabel(String status) {
-    switch (status) {
-      case ManuscriptStatus.writing:
-        return 'En cours';
-      case ManuscriptStatus.editing:
-        return 'Édition';
-      case ManuscriptStatus.reviewing:
-        return 'Bêta-lecture';
-      case ManuscriptStatus.selected:
-        return 'Sélectionné';
-      case ManuscriptStatus.published:
-        return 'Publié';
-      default:
-        return status;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    // TODO: plus tard tu pourras calculer un vrai pourcentage
-    final double progress = 0.65;
-
-    return InkWell(
-      borderRadius: BorderRadius.circular(18),
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
-        ),
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              manuscript.title,
-              style: theme.textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.bold,
+              "« N'attendez pas l'inspiration. Elle vient en écrivant. »\n— Victor Hugo",
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontStyle: FontStyle.italic,
+                height: 1.3,
+                color: Colors.grey[800],
               ),
             ),
-            const SizedBox(height: 2),
-            Text(
-              'Romance • ${manuscript.chapterCount} chapitres',
-              style:
-                  theme.textTheme.bodySmall?.copyWith(color: Colors.grey[700]),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              'Statut : ${_statusLabel(manuscript.status)}',
-              style:
-                  theme.textTheme.bodySmall?.copyWith(color: Colors.grey[600]),
-            ),
-            const SizedBox(height: 8),
-            Stack(
-              children: [
-                Container(
-                  height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.grey[300],
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                ),
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    return Container(
-                      height: 4,
-                      width: constraints.maxWidth * progress,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFE57C8C),
-                        borderRadius: BorderRadius.circular(999),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 4),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                '${(progress * 100).round()}%',
-                style: theme.textTheme.labelSmall
-                    ?.copyWith(color: Colors.grey[700]),
-              ),
-            ),
-          ],
-        ),
+          )
+        ],
       ),
-    );
-  }
-}
-
-class _BottomNavBar extends StatelessWidget {
-  final VoidCallback onHomeTap;
-  final VoidCallback onBetaTap;
-  final VoidCallback onReadingTap;
-  final VoidCallback onNotificationsTap;
-  final VoidCallback onProfileTap;
-
-  const _BottomNavBar({
-    required this.onHomeTap,
-    required this.onBetaTap,
-    required this.onReadingTap,
-    required this.onNotificationsTap,
-    required this.onProfileTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      currentIndex: 0,
-      selectedItemColor: const Color(0xFF8B5E3C),
-      unselectedItemColor: Colors.grey[500],
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            onHomeTap();
-            break;
-          case 1:
-            onBetaTap();
-            break;
-          case 2:
-            onReadingTap();
-            break;
-          case 3:
-            onNotificationsTap();
-            break;
-          case 4:
-            onProfileTap();
-            break;
-        }
-      },
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home_outlined),
-          label: 'Accueil',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.groups_outlined),
-          label: 'Bêta',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.menu_book_outlined),
-          label: 'Lecture',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.notifications_outlined),
-          label: 'Notifs',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.person_outline),
-          label: 'Profil',
-        ),
-      ],
     );
   }
 }

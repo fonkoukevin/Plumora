@@ -34,7 +34,7 @@ class ManuscriptService {
     });
   }
 
-  ///  Stream de tous les manuscrits publics 
+  ///  Stream de tous les manuscrits publics
   Stream<List<Manuscript>> watchPublicManuscripts() {
     print('[ManuscriptService] watchPublicManuscripts');
 

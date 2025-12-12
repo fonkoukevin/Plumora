@@ -58,9 +58,6 @@ class HomeViewModel extends StreamViewModel<List<Manuscript>> {
   void goToReading() {
     // si tu as généré la route ReadingView dans app.router.dart :
     _navigationService.navigateToReadingView();
-
-    // ⚠️ si tu n'as PAS encore la méthode navigateToReadingView,
-    // on peut temporairement utiliser Navigator classique depuis la View.
   }
 
   void goToBeta() {

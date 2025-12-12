@@ -124,6 +124,8 @@ int _countWords(String text) {
   return trimmed.split(RegExp(r'\s+')).length;
 }
 
+
+
 /// 🔶 HEADER : retour, titre, statut, bouton sauvegarde
 class _ManuscriptHeader extends StatelessWidget {
   final String title;
@@ -233,6 +235,9 @@ class _ManuscriptHeader extends StatelessWidget {
   }
 }
 
+
+
+
 /// 🔶 Carte d’info du manuscrit : résumé + stats
 class _InfoCard extends StatelessWidget {
   final Manuscript manuscript;
@@ -316,6 +321,7 @@ class _InfoCard extends StatelessWidget {
     );
   }
 }
+
 
 class _MiniStat extends StatelessWidget {
   final IconData icon;
@@ -411,6 +417,7 @@ class _EditorCard extends StatelessWidget {
     );
   }
 }
+
 
 /// 🔶 Chip de statut (réutilisé dans le header)
 class _StatusChip extends StatelessWidget {
