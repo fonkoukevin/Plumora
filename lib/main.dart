@@ -29,7 +29,7 @@ class MainApp extends StatelessWidget {
       initialRoute: Routes.startupView,
       onGenerateRoute: StackedRouter().onGenerateRoute,
       theme: ThemeData(
-        primarySwatch: Colors.purple,
+        primarySwatch: Colors.brown,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       navigatorKey: StackedService.navigatorKey,

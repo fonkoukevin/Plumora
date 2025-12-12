@@ -10,7 +10,8 @@ class Manuscript {
   final double avgRating;
   final DateTime createdAt;
   final DateTime updatedAt;
-  final String content; // 👈 nouveau
+  final String content;
+  final bool isPublic; 
 
   Manuscript({
     required this.id,
@@ -22,7 +23,8 @@ class Manuscript {
     required this.avgRating,
     required this.createdAt,
     required this.updatedAt,
-    this.content = '', // 👈 par défaut vide
+    this.content = '',
+    this.isPublic = false, 
   });
 
   Map<String, dynamic> toMap() {
@@ -36,6 +38,7 @@ class Manuscript {
       'createdAt': createdAt.toUtc().toIso8601String(),
       'updatedAt': updatedAt.toUtc().toIso8601String(),
       'content': content,
+      'isPublic': isPublic, 
     };
   }
 
@@ -69,7 +72,8 @@ class Manuscript {
       avgRating: avgRating,
       createdAt: createdAt,
       updatedAt: updatedAt,
-      content: map['content'] as String? ?? '', // 👈 si absent => ''
+      content: map['content'] as String? ?? '',
+      isPublic: map['isPublic'] as bool? ?? false, // 👈 vieux docs = false
     );
   }
 }

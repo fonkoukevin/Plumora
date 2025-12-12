@@ -80,21 +80,21 @@ class HomeView extends StackedView<HomeViewModel> {
 
                     const SizedBox(height: 16),
 
-                    // STATS DU JOUR (mock pour l'instant)
+                    // STATS DU JOUR (mock)
                     Row(
                       children: [
                         Expanded(
-                          child: const _StatCard(
+                          child: _StatCard(
                             label: 'Mots aujourd\'hui',
-                            value: '856', // TODO: brancher plus tard
+                            value: '856',
                             icon: Icons.trending_up,
                           ),
                         ),
                         const SizedBox(width: 8),
                         Expanded(
-                          child: const _StatCard(
+                          child: _StatCard(
                             label: 'Temps d\'écriture',
-                            value: '1h 24m', // TODO: brancher plus tard
+                            value: '1h 24m',
                             icon: Icons.access_time,
                           ),
                         ),
@@ -125,7 +125,7 @@ class HomeView extends StackedView<HomeViewModel> {
                         const Spacer(),
                         TextButton(
                           onPressed: () {
-                            // plus tard : bibliothèque
+                            // plus tard : page "Bibliothèque"
                           },
                           child: Text(
                             'Voir tout →',
@@ -165,11 +165,13 @@ class HomeView extends StackedView<HomeViewModel> {
               ),
       ),
       bottomNavigationBar: _BottomNavBar(
-        onHomeTap: () {}, // déjà sur Accueil
-        onBetaTap: () {},
-        onReadingTap: () {},
-        onNotificationsTap: () {},
-        onProfileTap: viewModel.goToProfile, // 👉 ouvre la page Profil
+        onHomeTap: () {
+          // On est déjà sur l’accueil → rien
+        },
+        onBetaTap: viewModel.goToBeta, // TODO plus tard
+        onReadingTap: viewModel.goToReading, // 👈 Lecture
+        onNotificationsTap: viewModel.goToNotifs,
+        onProfileTap: viewModel.goToProfile, // 👈 Profil
       ),
     );
   }
@@ -357,8 +359,8 @@ class _ManuscriptHomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // TODO : plus tard, vrai pourcentage
-    const double progress = 0.65;
+    // TODO: plus tard tu pourras calculer un vrai pourcentage
+    final double progress = 0.65;
 
     return InkWell(
       borderRadius: BorderRadius.circular(18),

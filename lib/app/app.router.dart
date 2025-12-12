@@ -5,17 +5,18 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:flutter/material.dart';
 import 'package:plumora/ui/views/home/home_view.dart' as _i2;
 import 'package:plumora/ui/views/login/login_view.dart' as _i4;
 import 'package:plumora/ui/views/manuscript/manuscript_view.dart' as _i7;
 import 'package:plumora/ui/views/newmanuscript/newmanuscript_view.dart' as _i6;
 import 'package:plumora/ui/views/profile/profile_view.dart' as _i8;
+import 'package:plumora/ui/views/reading/reading_view.dart' as _i9;
 import 'package:plumora/ui/views/register/register_view.dart' as _i5;
 import 'package:plumora/ui/views/startup/startup_view.dart' as _i3;
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i10;
+import 'package:stacked_services/stacked_services.dart' as _i11;
 
 class Routes {
   static const homeView = '/home-view';
@@ -32,6 +33,8 @@ class Routes {
 
   static const profileView = '/profile-view';
 
+  static const readingView = '/reading-view';
+
   static const all = <String>{
     homeView,
     startupView,
@@ -40,6 +43,7 @@ class Routes {
     newmanuscriptView,
     manuscriptView,
     profileView,
+    readingView,
   };
 }
 
@@ -73,35 +77,39 @@ class StackedRouter extends _i1.RouterBase {
       Routes.profileView,
       page: _i8.ProfileView,
     ),
+    _i1.RouteDef(
+      Routes.readingView,
+      page: _i9.ReadingView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.LoginView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.LoginView(),
         settings: data,
       );
     },
     _i5.RegisterView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.RegisterView(),
         settings: data,
       );
     },
     _i6.NewmanuscriptView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.NewmanuscriptView(),
         settings: data,
       );
@@ -110,15 +118,21 @@ class StackedRouter extends _i1.RouterBase {
       final args = data.getArgs<ManuscriptViewArguments>(
         orElse: () => const ManuscriptViewArguments(),
       );
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i7.ManuscriptView(key: args.key, manuscriptId: args.manuscriptId),
         settings: data,
       );
     },
     _i8.ProfileView: (data) {
-      return _i9.MaterialPageRoute<dynamic>(
+      return _i10.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.ProfileView(),
+        settings: data,
+      );
+    },
+    _i9.ReadingView: (data) {
+      return _i10.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i9.ReadingView(),
         settings: data,
       );
     },
@@ -137,7 +151,7 @@ class ManuscriptViewArguments {
     this.manuscriptId,
   });
 
-  final _i9.Key? key;
+  final _i10.Key? key;
 
   final String? manuscriptId;
 
@@ -158,7 +172,7 @@ class ManuscriptViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i10.NavigationService {
+extension NavigatorStateExtension on _i11.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -230,7 +244,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> navigateToManuscriptView({
-    _i9.Key? key,
+    _i10.Key? key,
     String? manuscriptId,
     int? routerId,
     bool preventDuplicates = true,
@@ -255,6 +269,20 @@ extension NavigatorStateExtension on _i10.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.profileView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToReadingView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.readingView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -332,7 +360,7 @@ extension NavigatorStateExtension on _i10.NavigationService {
   }
 
   Future<dynamic> replaceWithManuscriptView({
-    _i9.Key? key,
+    _i10.Key? key,
     String? manuscriptId,
     int? routerId,
     bool preventDuplicates = true,
@@ -357,6 +385,20 @@ extension NavigatorStateExtension on _i10.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.profileView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithReadingView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.readingView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

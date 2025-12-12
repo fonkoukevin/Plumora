@@ -24,10 +24,26 @@ class ManuscriptService {
 
     return _manuscriptsRef
         .where('ownerId', isEqualTo: uid)
-        //snapshots renvoie un Stream temps real
         .snapshots()
         .map((snap) {
       print('[ManuscriptService] Nombre de manuscrits = ${snap.docs.length}');
+      return snap.docs
+          .map((doc) =>
+              Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>))
+          .toList();
+    });
+  }
+
+  ///  Stream de tous les manuscrits publics 
+  Stream<List<Manuscript>> watchPublicManuscripts() {
+    print('[ManuscriptService] watchPublicManuscripts');
+
+    return _manuscriptsRef
+        .where('isPublic', isEqualTo: true)
+        .snapshots()
+        .map((snap) {
+      print(
+          '[ManuscriptService] Nombre de manuscrits publics = ${snap.docs.length}');
       return snap.docs
           .map((doc) =>
               Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>))
@@ -56,7 +72,8 @@ class ManuscriptService {
       'avgRating': 0.0,
       'createdAt': now.toUtc().toIso8601String(),
       'updatedAt': now.toUtc().toIso8601String(),
-      'content': '', // 👈 important
+      'content': '',
+      'isPublic': true, // 👈 par défaut pas visible dans Lecture
     });
 
     print('[ManuscriptService] Manuscrit créé avec id = ${doc.id}');
@@ -68,7 +85,6 @@ class ManuscriptService {
     if (!doc.exists) return null;
     return Manuscript.fromMap(doc.id, doc.data() as Map<String, dynamic>);
   }
-
 
   Future<void> updateManuscriptContent({
     required String id,
@@ -83,6 +99,4 @@ class ManuscriptService {
 
     print('[ManuscriptService] Content mis à jour pour $id');
   }
-
-
 }
