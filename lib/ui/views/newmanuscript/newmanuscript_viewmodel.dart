@@ -24,7 +24,7 @@ class NewmanuscriptViewModel extends BaseViewModel {
 
   Future<void> create() async {
     if (_title.trim().isEmpty) {
-      // ...
+      // titre manquant
       return;
     }
 

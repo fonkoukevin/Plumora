@@ -85,12 +85,6 @@ class ProfileView extends StackedView<HomeViewModel> {
                 ),
               ),
       ),
-      // bottomNavigationBar: _BottomNavBar(
-      //   onHomeTap: viewModel.goToHome,
-      //   onLibraryTap: () {},
-      //   onNotificationsTap: () {},
-      //   onProfileTap: () {},
-      // ),
 
       bottomNavigationBar: _BottomNavBar(
         onHomeTap: viewModel.goToHome,
@@ -503,70 +497,6 @@ class _SettingsSection extends StatelessWidget {
     );
   }
 }
-
-// class _ProfileBottomNavBar extends StatelessWidget {
-//   final VoidCallback onHomeTap;
-//   final VoidCallback onLibraryTap;
-//   final VoidCallback onNotificationsTap;
-//   final VoidCallback onProfileTap;
-
-//   const _ProfileBottomNavBar({
-//     required this.onHomeTap,
-//     required this.onLibraryTap,
-//     required this.onNotificationsTap,
-//     required this.onProfileTap,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BottomNavigationBar(
-//       type: BottomNavigationBarType.fixed,
-//       currentIndex: 4, // onglet Profil
-//       onTap: (index) {
-//         switch (index) {
-//           case 0:
-//             onHomeTap();
-//             break;
-//           case 1:
-//             onLibraryTap();
-//             break;
-//           case 2:
-//             onNotificationsTap();
-//             break;
-//           case 3:
-//             break;
-//           case 4:
-//             onProfileTap();
-//             break;
-//         }
-//       },
-//       selectedItemColor: const Color(0xFF8B5E3C),
-//       unselectedItemColor: Colors.grey[500],
-//       items: const [
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.home_outlined),
-//           label: 'Accueil',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.menu_book_outlined),
-//           label: 'Bibliothèque',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.notifications_outlined),
-//           label: 'Alertes',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.person_outline),
-//           label: 'Autre',
-//         ),
-//         BottomNavigationBarItem(
-//           icon: Icon(Icons.person),
-//           label: 'Profil',
-//         ),
-//       ],
-//     );
-//   }
-// }
 
 class _BottomNavBar extends StatelessWidget {
   final VoidCallback onHomeTap;

@@ -7,7 +7,7 @@ import '../../../services/user_service.dart';
 import '../../../services/manuscript_service.dart';
 import '../../../models/manuscript.dart';
 import '../newmanuscript/newmanuscript_view.dart';
-import '../manuscript/manuscript_view.dart';
+// manuscript view is navigated via generated route helper
 
 class HomeViewModel extends StreamViewModel<List<Manuscript>> {
   final _userService = locator<UserService>();
@@ -35,9 +35,7 @@ class HomeViewModel extends StreamViewModel<List<Manuscript>> {
   }
 
   void openManuscript(Manuscript manuscript) {
-    _navigationService.navigateToView(
-      ManuscriptView(manuscriptId: manuscript.id),
-    );
+    _navigationService.navigateToManuscriptView(manuscriptId: manuscript.id);
   }
 
   void logout() {
